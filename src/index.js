@@ -2,28 +2,44 @@
 // @ts-nocheck
 import React from 'react';
 import ReactDOM from 'react-dom';
-import gon from 'gon';
-import App from './App';
+import io from 'socket.io-client';
+import cookies from 'js-cookie';
+import faker from 'faker';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
+import rootReducer, { addMessage } from './reducers/index';
+import NicknameContext from './nickname-context';
+import App from './components/App';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
 import '../assets/application.scss';
-
-// import faker from 'faker';
-
-// import cookies from 'js-cookie';
-// import io from 'socket.io-client';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-console.log('it works!');
-console.log('gon', gon);
+if (!cookies.get('nickname')) {
+  const newNickName = faker.name.findName();
+  cookies.set('nickname', newNickName);
+}
+
+const nickname = cookies.get('nickname');
+
+const store = configureStore({
+  reducer: rootReducer,
+});
+
+const socket = io();
+
+socket.on('newMessage', ({ data }) => {
+  store.dispatch(addMessage({ message: data }));
+});
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App channels={gon.channels} />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <NicknameContext.Provider value={nickname}>
+      <App />
+    </NicknameContext.Provider>
+  </Provider>,
   document.getElementById('chat'),
 );
