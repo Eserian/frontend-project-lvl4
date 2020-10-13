@@ -31,7 +31,12 @@ const channelsSlice = createSlice({
   },
 });
 
-const { addChannel, setCurrentChannel, removeChannel, renameChannel } = channelsSlice.actions;
+const {
+  addChannel,
+  setCurrentChannel,
+  removeChannel,
+  renameChannel,
+} = channelsSlice.actions;
 
 const messagesSlice = createSlice({
   name: 'messagesInfo',
