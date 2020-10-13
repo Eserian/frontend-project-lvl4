@@ -1,4 +1,4 @@
 ### Hexlet tests and linter status:
-![hexlet-check](https://github.com/Eserian/frontend-project-lvl4/workflows/hexlet-check/badge.svg)
+![Node CI](https://github.com/Eserian/frontend-project-lvl4/workflows/Node%20CI/badge.svg)
 
 https://morning-badlands-14521.herokuapp.com/

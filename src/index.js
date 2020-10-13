@@ -7,12 +7,15 @@ import cookies from 'js-cookie';
 import faker from 'faker';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import rootReducer, { addMessage } from './reducers/index';
+import rootReducer, {
+  addChannel, addMessage, removeChannel, renameChannel,
+} from './reducers/index';
 import NicknameContext from './nickname-context';
 import App from './components/App';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import '../assets/application.scss';
+import 'bootstrap/js/dist/dropdown';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -33,6 +36,18 @@ const socket = io();
 
 socket.on('newMessage', ({ data }) => {
   store.dispatch(addMessage({ message: data }));
+});
+
+socket.on('newChannel', ({ data }) => {
+  store.dispatch(addChannel({ channel: data }));
+});
+
+socket.on('removeChannel', ({ data: { id } }) => {
+  store.dispatch(removeChannel({ channelId: id }));
+});
+
+socket.on('renameChannel', ({ data: { id, attributes } }) => {
+  store.dispatch(renameChannel({ id, attributes }));
 });
 
 ReactDOM.render(
