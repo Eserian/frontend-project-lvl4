@@ -10,16 +10,21 @@ import getModal from './modals/index';
 import routes from '../routes';
 import NicknameContext from '../nickname-context';
 
-const handleSubmit = (channelId, nickname) => async ({ body }, { resetForm }) => {
-  await axios.post(routes.channelMessagesPath(channelId), {
-    data: {
-      attributes: {
-        body,
-        nickname,
+const handleSubmit = (channelId, nickname) => async ({ body }, { resetForm, setStatus }) => {
+  try {
+    await axios.post(routes.channelMessagesPath(channelId), {
+      data: {
+        attributes: {
+          body,
+          nickname,
+        },
       },
-    },
-  });
-  resetForm({ values: '' });
+    });
+    resetForm({ values: '' });
+  } catch (e) {
+    setStatus(e.message);
+    console.log(e.message);
+  }
 };
 
 const renderModal = (modalInfo, dispatch) => {
@@ -94,6 +99,11 @@ export default () => {
     },
   );
 
+  const inputClass = cn('mr-2 form-control',
+    {
+      'is-invalid': f.status,
+    });
+
   const inputEl = useRef(null);
   useEffect(() => {
     inputEl.current.select();
@@ -136,13 +146,13 @@ export default () => {
                     ref={inputEl}
                     name="body"
                     aria-label="body"
-                    className="mr-2 form-control"
+                    className={inputClass}
                     value={f.values.body}
                     onChange={f.handleChange}
                     disabled={f.isSubmitting}
                   />
                   <button aria-label="submit" type="submit" className="btn btn-primary" disabled={f.isSubmitting}>Submit</button>
-                  <div className="d-block invalid-feedback">&nbsp;</div>
+                  <div className="d-block invalid-feedback">{f.status}</div>
                 </div>
               </div>
             </form>
