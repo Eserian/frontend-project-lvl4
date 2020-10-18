@@ -5,7 +5,7 @@ on:
   - pull_request
 
 jobs:
-  test and lint:
+  test-and-lint:
     runs-on: ubuntu-latest
 
     strategy:
