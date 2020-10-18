@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import NicknameContext from '../nickname-context';
 import Form from './Form';
 import Channels from './Channels';
-
 import Messages from './Messages';
 
 export default () => {
