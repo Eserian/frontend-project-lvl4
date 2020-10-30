@@ -1,14 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { combineReducers } from 'redux';
-
 import { createSlice } from '@reduxjs/toolkit';
-import gon from 'gon';
 
 const channelsSlice = createSlice({
   name: 'channelsInfo',
   initialState: {
-    channels: [...gon.channels],
-    currentChannelId: 1,
+    channels: [],
+    currentChannelId: null,
   },
   reducers: {
     addChannel(state, action) {
@@ -41,7 +39,7 @@ const {
 const messagesSlice = createSlice({
   name: 'messagesInfo',
   initialState: {
-    messages: [...gon.messages],
+    messages: [],
   },
   reducers: {
     addMessage(state, action) {

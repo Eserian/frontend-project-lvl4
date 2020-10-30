@@ -6,10 +6,11 @@ import Channels from './Channels';
 import Messages from './Messages';
 
 export default () => {
-  const messages = useSelector((store) => store.messagesInfo.messages);
+  const currentChannelId = useSelector((store) => store.channelsInfo.currentChannelId);
+  const messages = useSelector((store) => store.messagesInfo.messages
+    .filter((m) => m.channelId === currentChannelId));
   const channels = useSelector((store) => store.channelsInfo.channels);
   const modalInfo = useSelector((store) => store.modal);
-  const currentChannelId = useSelector((store) => store.channelsInfo.currentChannelId);
   const nickname = useContext(NicknameContext);
   const dispatch = useDispatch();
 
@@ -23,7 +24,7 @@ export default () => {
       />
       <div className="col h-100">
         <div className="d-flex flex-column h-100">
-          <Messages messages={messages} currentChannelId={currentChannelId} />
+          <Messages data={messages} />
           <Form currentChannelId={currentChannelId} nickname={nickname} />
         </div>
       </div>

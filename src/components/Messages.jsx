@@ -1,10 +1,9 @@
 import React from 'react';
 
-const Messages = ({ messages, currentChannelId }) => (
+const Messages = ({ data }) => (
   <div id="message-box" className="chat-messages overflow-auto mb-3">
     {
-      messages
-        .filter((m) => m.channelId === currentChannelId)
+      data
         .map((m) => (
           <div key={m.id}>
             <b>{m.nickname}</b>
